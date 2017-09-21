@@ -2,7 +2,7 @@ import React from 'react';
 import Styling from "./style";
 import MapView from 'react-native-maps';
 
-const GoogleMap = ({view,location}) => {
+const GoogleMap = ({ view, location }) => {
     return (<MapView
         style={Styling.map}
         showTraffic={true}
@@ -14,6 +14,11 @@ const GoogleMap = ({view,location}) => {
             longitudeDelta: 0.0121,
         }}
     >
+        <MapView.Marker
+            coordinate={{latitude: parseFloat(location.latitude),
+            longitude: parseFloat(location.longitude)}
+}
+    />
     </MapView>
     )
 }
