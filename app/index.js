@@ -4,33 +4,49 @@ import {
     StyleSheet,
     Text,
     View,
-    Geolocation
+    PermissionsAndroid,
+    Button
 } from 'react-native';
-import MapView from 'react-native-maps';
-
+import { AutoComplete, Map } from "./Component"
 export default class App extends Component {
-
-    componentDidMount(){
-        this.watchPosition();
+    state={
+        viewBolean:true,
+        view:'standard',
+        currentLocation:{
+            latitude:37.78825,
+            longitude: -122.4324
+        }
     }
-    watchPosition=async ()=>{
-        await Geolocation.getCurrentPosition((suc,err)=>{
-            alert(suc);
-        })
+    changeLocation = (lat,lon)=>{
+        let obj = this.state.currentLocation;
+        obj.latitude = lat;
+        obj.longitude = lon;
+        this.setState(obj);
+    }
+    changeState=()=>{
+        // this.setState(prev => ({viewBolean: !prev.viewBolean}))
+        if(this.state.viewBolean){
+            this.setState({view:'satellite',viewBolean:!this.state.viewBolean})
+        }
+        else{
+            this.setState({view:'standard',viewBolean:!this.state.viewBolean})
+        }
     }
     render() {
         return (
             <View style={styles.container}>
-                <MapView
-                    style={styles.map}
-                    region={{
-                        latitude: 37.78825,
-                        longitude: -122.4324,
-                        latitudeDelta: 0.015,
-                        longitudeDelta: 0.0121,
-                    }}
-                >
-                </MapView>
+                <Map view={this.state.view} location={this.state.currentLocation}/>
+                <View style={styles.autoComplete}>
+                    <AutoComplete changeLocation={this.changeLocation}/>
+                </View>
+                <View style={{bottom:0,position:'absolute'}}>
+                    <Button
+                        onPress={()=>this.changeState()}
+                        title={this.state.viewBolean?"Settelite View":"Standard View"}
+                        color="#841584"
+                        accessibilityLabel="Learn more about this purple button"
+                    />
+                </View>
             </View>
         );
     }
@@ -38,13 +54,12 @@ export default class App extends Component {
 
 const styles = StyleSheet.create({
     container: {
-        ...StyleSheet.absoluteFillObject,
-        height: StyleSheet.absoluteFill,
-        width: 400,
-        justifyContent: 'flex-end',
-        alignItems: 'center',
+        flex: 1,
     },
-    map: {
-        ...StyleSheet.absoluteFillObject,
+    autoComplete: {
+        position: 'absolute',
+        top: 30,
+        left: 30,
+        right: 30
     },
 });
