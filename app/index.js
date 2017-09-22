@@ -4,11 +4,22 @@ import {
     StyleSheet,
     Text,
     View,
-    PermissionsAndroid,
-    Button
+    Image,
+    TouchableOpacity,
 } from 'react-native';
 import { AutoComplete, Map } from "./Component"
+// const Permissions = require('react-native-permissions');
+import { Container, Header, Left, Body, Right, Icon, Title,Button } from 'native-base';
 export default class App extends PureComponent {
+    constructor(props) {
+        super(props);
+    }
+    static navigationOptions = {
+        drawerLabel: 'Home',
+        title:"Tourist Guide",
+        headerLeft:<Button onPress={()=>console.log(this.props)}  transparent><Icon style={{color:"white"}} name="menu"/></Button>
+        
+    }
     state = {
         viewBolean: true,
         view: 'standard',
@@ -17,39 +28,27 @@ export default class App extends PureComponent {
             longitude: -122.4324
         }
     }
+
     componentDidMount() {
-        // navigator.geolocation.getCurrentPosition((position) => {
-        //     alert(position)
-        // })
-        // this.requestCameraPermission();
+        navigator.geolocation.getCurrentPosition((position) => {
+            let { currentLocation } = this.state;
+            currentLocation.latitude = position.coords.latitude;
+            currentLocation.longitude = position.coords.longitude;
+
+            this.setState(currentLocation)
+        }, (error) => {
+            alert("Please turn on location in your phone")
+        })
     }
+
     changeLocation = (lat, lon) => {
         let obj = this.state.currentLocation;
         obj.latitude = lat;
         obj.longitude = lon;
         this.setState(obj);
     }
-    // async requestCameraPermission() {
-    //     try {
-    //         const granted = await PermissionsAndroid.request(
-    //             PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
-    //             {
-    //                 'title': 'Cool Photo App Camera Permission',
-    //                 'message': 'Cool Photo App needs access to your camera ' +
-    //                 'so you can take awesome pictures.'
-    //             }
-    //         )
-    //         if (granted === PermissionsAndroid.RESULTS.GRANTED) {
-    //             console.log("You can use the camera")
-    //         } else {
-    //             console.log("Camera permission denied")
-    //         }
-    //     } catch (err) {
-    //         console.warn(err)
-    //     }
-    // }
+
     changeState = () => {
-        // this.setState(prev => ({viewBolean: !prev.viewBolean}))
         if (this.state.viewBolean) {
             this.setState({ view: 'satellite', viewBolean: !this.state.viewBolean })
         }
@@ -57,21 +56,41 @@ export default class App extends PureComponent {
             this.setState({ view: 'standard', viewBolean: !this.state.viewBolean })
         }
     }
+
     render() {
         return (
             <View style={styles.container}>
+                {/*<Header style={{backgroundColor:"#4c524e"}}>
+                    <Left>
+                        <Button onPress={()=>this.props.navigation.navigate('DrawerOpen')} transparent>
+                        <Icon onPress={()=>this.props.navigation.navigate('DrawerOpen')} style={{color:"white"}} name='menu' />
+                        </Button>
+                    </Left>
+                    <Body>
+                        <Title>Tourist Guide</Title>
+                    </Body>
+                </Header>*/}
                 <Map view={this.state.view} location={this.state.currentLocation} />
                 <View style={styles.autoComplete}>
                     <AutoComplete changeLocation={this.changeLocation} />
                 </View>
                 <View style={{ bottom: 0, position: 'absolute' }}>
                     <Button
+                    backgroundColor="#4c524e"
                         onPress={() => this.changeState()}
-                        title={this.state.viewBolean ? "Settelite View" : "Standard View"}
-                        color="#841584"
-                        accessibilityLabel="Learn more about this purple button"
-                    />
+                    ><Text style={{color:"white"}}>{this.state.viewBolean ? "Settelite View" : "Standard View"}</Text>
+                    </Button>
                 </View>
+                {/*<View style={{ width: "100%", height: 35, backgroundColor: "#4c524e" }}>
+                    <TouchableOpacity onPress={()=>this.props.navigation.navigate('DrawerOpen')}
+                    >
+                        <Image
+                            style={{ width: 20, height: 20, top: 8, left: 10 }}
+                            source={{ uri: 'http://www.carvertise.com/img/mobile_menu.png' }}
+                        />
+                    </TouchableOpacity>
+                    <Text style={{ color: 'white', bottom: 12, fontFamily: "sans-serif-medium", textAlign: 'center' }}>Tourist Guide</Text>
+                </View>*/}
             </View>
         );
     }

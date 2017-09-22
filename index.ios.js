@@ -6,6 +6,6 @@
 
 import React, { Component } from 'react';
 import {AppRegistry} from 'react-native';
-import Tourist from "./app/index";
+import Tourist from "./app/Config/router";
 
 AppRegistry.registerComponent('tourist', () => Tourist);

@@ -8,6 +8,9 @@ const Styling = {
         width:'98%',
         borderRadius:50
     },
+   poweredContainer:{
+       display:'none'
+   },
     textInput: {
         marginLeft: 0,
         marginRight: 0,
