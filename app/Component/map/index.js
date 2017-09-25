@@ -15,10 +15,12 @@ const GoogleMap = ({ view, location }) => {
         }}
     >
         <MapView.Marker
-            coordinate={{latitude: parseFloat(location.latitude),
-            longitude: parseFloat(location.longitude)}
-}
-    />
+            coordinate={{
+                latitude: parseFloat(location.latitude),
+                longitude: parseFloat(location.longitude)
+            }
+            }
+        />
     </MapView>
     )
 }

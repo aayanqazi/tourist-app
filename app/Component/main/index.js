@@ -7,18 +7,19 @@ import {
     Image,
     TouchableOpacity,
 } from 'react-native';
-import { AutoComplete, Map } from "./Component"
+import { NavigationActions } from "react-navigation";
+import { AutoComplete, Map } from "../"
 // const Permissions = require('react-native-permissions');
-import { Container, Header, Left, Body, Right, Icon, Title,Button } from 'native-base';
+import { Container, Header, Left, Body, Right, Icon, Title, Button, Footer, FooterTab } from 'native-base';
 export default class App extends PureComponent {
     constructor(props) {
         super(props);
     }
     static navigationOptions = {
         drawerLabel: 'Home',
-        title:"Tourist Guide",
-        headerLeft:<Button onPress={()=>console.log(this.props)}  transparent><Icon style={{color:"white"}} name="menu"/></Button>
-        
+        title: "Tourist Guide",
+        // headerLeft:<Button onPress={()=>console.log(this.props)}  transparent><Icon style={{color:"white"}} name="menu"/></Button>
+
     }
     state = {
         viewBolean: true,
@@ -40,7 +41,13 @@ export default class App extends PureComponent {
             alert("Please turn on location in your phone")
         })
     }
-
+    fetchParks = ()=>{
+        return fetch(`https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=${this.state.currentLocation.latitude},${this.state.currentLocation.longitude}&radius=500&type=park&key=AIzaSyDzpEMajXZeyfzxOAoP1Ky_nHsGdYcMy5w`).then((res)=>{
+            return console.log(res);
+        }).catch((err)=>{
+           return console.log(err)
+        })
+    }
     changeLocation = (lat, lon) => {
         let obj = this.state.currentLocation;
         obj.latitude = lat;
@@ -70,16 +77,10 @@ export default class App extends PureComponent {
                         <Title>Tourist Guide</Title>
                     </Body>
                 </Header>*/}
+
                 <Map view={this.state.view} location={this.state.currentLocation} />
                 <View style={styles.autoComplete}>
                     <AutoComplete changeLocation={this.changeLocation} />
-                </View>
-                <View style={{ bottom: 0, position: 'absolute' }}>
-                    <Button
-                    backgroundColor="#4c524e"
-                        onPress={() => this.changeState()}
-                    ><Text style={{color:"white"}}>{this.state.viewBolean ? "Settelite View" : "Standard View"}</Text>
-                    </Button>
                 </View>
                 {/*<View style={{ width: "100%", height: 35, backgroundColor: "#4c524e" }}>
                     <TouchableOpacity onPress={()=>this.props.navigation.navigate('DrawerOpen')}
@@ -91,6 +92,25 @@ export default class App extends PureComponent {
                     </TouchableOpacity>
                     <Text style={{ color: 'white', bottom: 12, fontFamily: "sans-serif-medium", textAlign: 'center' }}>Tourist Guide</Text>
                 </View>*/}
+                                <Footer style={{ bottom: 0, position: 'absolute'}}>
+                    <FooterTab>
+                        <Button style={{ backgroundColor: "#4c524e" }} onPress={()=>this.fetchParks}>
+                            <Text style={{ color: "white" }}>Parks</Text>
+                        </Button>
+                        <Button style={{ backgroundColor: "#4c524e" }}>
+                            <Text style={{ color: "white" }}>Hospitals</Text>
+                        </Button>
+                        <Button style={{ backgroundColor: "#4c524e" }}>
+                            <Text style={{ color: "white" }}>Pumps</Text>
+                        </Button>
+                        <Button
+                            style={{ backgroundColor: "#4c524e" }}
+                            onPress={() => this.changeState()}
+                        ><Text style={{ color: "white" }}>{this.state.viewBolean ? "Settelite View" : "Standard View"}</Text>
+                        </Button>
+                    </FooterTab>
+                </Footer>
+
             </View>
         );
     }
