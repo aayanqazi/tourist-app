@@ -41,11 +41,11 @@ export default class App extends PureComponent {
             alert("Please turn on location in your phone")
         })
     }
-    fetchParks = ()=>{
-        return fetch(`https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=${this.state.currentLocation.latitude},${this.state.currentLocation.longitude}&radius=500&type=park&key=AIzaSyDzpEMajXZeyfzxOAoP1Ky_nHsGdYcMy5w`).then((res)=>{
+    fetchParks = () => {
+        return fetch(`https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=${this.state.currentLocation.latitude},${this.state.currentLocation.longitude}&radius=500&type=park&key=AIzaSyDzpEMajXZeyfzxOAoP1Ky_nHsGdYcMy5w`).then((res) => {
             return console.log(res);
-        }).catch((err)=>{
-           return console.log(err)
+        }).catch((err) => {
+            return console.log(err)
         })
     }
     changeLocation = (lat, lon) => {
@@ -92,9 +92,9 @@ export default class App extends PureComponent {
                     </TouchableOpacity>
                     <Text style={{ color: 'white', bottom: 12, fontFamily: "sans-serif-medium", textAlign: 'center' }}>Tourist Guide</Text>
                 </View>*/}
-                                <Footer style={{ bottom: 0, position: 'absolute'}}>
+                <Footer style={{ bottom: 0, position: 'absolute' }}>
                     <FooterTab>
-                        <Button style={{ backgroundColor: "#4c524e" }} onPress={()=>this.fetchParks}>
+                        <Button style={{ backgroundColor: "#4c524e" }} onPress={() => this.fetchParks()}>
                             <Text style={{ color: "white" }}>Parks</Text>
                         </Button>
                         <Button style={{ backgroundColor: "#4c524e" }}>
@@ -106,7 +106,7 @@ export default class App extends PureComponent {
                         <Button
                             style={{ backgroundColor: "#4c524e" }}
                             onPress={() => this.changeState()}
-                        ><Text style={{ color: "white" }}>{this.state.viewBolean ? "Settelite View" : "Standard View"}</Text>
+                        ><Text style={{ color: "white" }}>{this.state.viewBolean ? "Settelite" : "Standard"}</Text>
                         </Button>
                     </FooterTab>
                 </Footer>

@@ -1,6 +1,6 @@
 import React from "react";
 import { StackNavigator, DrawerNavigator, NavigationActions } from "react-navigation";
-import App from "../Component/main/";
+import App from "../component/main/";
 import {Button , Icon} from "native-base";
 
 const Drawer = DrawerNavigator({

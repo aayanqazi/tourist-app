@@ -15,7 +15,6 @@ const GoogleAutoPlaces = ({changeLocation}) => {
             // available options: https://developers.google.com/places/web-service/autocomplete
             key: 'AIzaSyDzpEMajXZeyfzxOAoP1Ky_nHsGdYcMy5w',
             language: 'en', // language of the results
-            types: '(cities)' // default: 'geocode'
         }}
         debounce={0}
         onPress={(data, details = null) => { // 'details' is provided when fetchDetails = true
