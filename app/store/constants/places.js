@@ -1,0 +1,8 @@
+export default class places {
+    static PARKS_FETCH = "PARKS";
+    static PARKS_SUCCESSFULLY_DONE = "PARKS_SUCCESSFULLY_DONE";
+    static PARKS_FAILED = "PARKS_FAILED";
+    static DISTANCE_FETCH = "DISTANCE_FETCH";
+    static DISTANCE_SUCCESS = "DISTANCE_SUCCESS";
+    static DISTANCE_FAILED = "DISTANCE_FAILED";
+}

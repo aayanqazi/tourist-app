@@ -1,11 +1,11 @@
 import React from "react";
 import { StackNavigator, DrawerNavigator, NavigationActions } from "react-navigation";
-import App from "../component/main/";
+import {Main} from "../container/";
 import {Button , Icon} from "native-base";
 
 const Drawer = DrawerNavigator({
     Home: {
-        screen: App
+        screen: Main
     }
 }, { drawerWidth: 200})
 

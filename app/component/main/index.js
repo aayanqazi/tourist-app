@@ -4,22 +4,16 @@ import {
     StyleSheet,
     Text,
     View,
-    Image,
-    TouchableOpacity,
+    Image
 } from 'react-native';
 import { NavigationActions } from "react-navigation";
-import { AutoComplete, Map } from "../"
+import { AutoComplete, Map, Loader } from "../"
 // const Permissions = require('react-native-permissions');
 import { Container, Header, Left, Body, Right, Icon, Title, Button, Footer, FooterTab } from 'native-base';
+
 export default class App extends PureComponent {
     constructor(props) {
         super(props);
-    }
-    static navigationOptions = {
-        drawerLabel: 'Home',
-        title: "Tourist Guide",
-        // headerLeft:<Button onPress={()=>console.log(this.props)}  transparent><Icon style={{color:"white"}} name="menu"/></Button>
-
     }
     state = {
         viewBolean: true,
@@ -41,13 +35,13 @@ export default class App extends PureComponent {
             alert("Please turn on location in your phone")
         })
     }
-    fetchParks = () => {
-        return fetch(`https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=${this.state.currentLocation.latitude},${this.state.currentLocation.longitude}&radius=500&type=park&key=AIzaSyDzpEMajXZeyfzxOAoP1Ky_nHsGdYcMy5w`).then((res) => {
-            return console.log(res);
-        }).catch((err) => {
-            return console.log(err)
-        })
+
+    fetchParks = (value) => {
+        var obj = this.state.currentLocation;
+        obj.type = value
+        this.props.placesApi(obj)
     }
+
     changeLocation = (lat, lon) => {
         let obj = this.state.currentLocation;
         obj.latitude = lat;
@@ -65,43 +59,26 @@ export default class App extends PureComponent {
     }
 
     render() {
+        console.log(this.props)
         return (
             <View style={styles.container}>
-                {/*<Header style={{backgroundColor:"#4c524e"}}>
-                    <Left>
-                        <Button onPress={()=>this.props.navigation.navigate('DrawerOpen')} transparent>
-                        <Icon onPress={()=>this.props.navigation.navigate('DrawerOpen')} style={{color:"white"}} name='menu' />
-                        </Button>
-                    </Left>
-                    <Body>
-                        <Title>Tourist Guide</Title>
-                    </Body>
-                </Header>*/}
-
-                <Map view={this.state.view} location={this.state.currentLocation} />
+                <Map view={this.state.view} location={this.state.currentLocation} places={this.props.places} distance = {this.props.distance}/>
                 <View style={styles.autoComplete}>
                     <AutoComplete changeLocation={this.changeLocation} />
                 </View>
-                {/*<View style={{ width: "100%", height: 35, backgroundColor: "#4c524e" }}>
-                    <TouchableOpacity onPress={()=>this.props.navigation.navigate('DrawerOpen')}
-                    >
-                        <Image
-                            style={{ width: 20, height: 20, top: 8, left: 10 }}
-                            source={{ uri: 'http://www.carvertise.com/img/mobile_menu.png' }}
-                        />
-                    </TouchableOpacity>
-                    <Text style={{ color: 'white', bottom: 12, fontFamily: "sans-serif-medium", textAlign: 'center' }}>Tourist Guide</Text>
-                </View>*/}
+                {
+                    this.props.places.isProcessing ? <Loader /> : null
+                }
                 <Footer style={{ bottom: 0, position: 'absolute' }}>
                     <FooterTab>
-                        <Button style={{ backgroundColor: "#4c524e" }} onPress={() => this.fetchParks()}>
+                        <Button style={{ backgroundColor: "#4c524e" }} onPress={() => this.fetchParks('park')}>
                             <Text style={{ color: "white" }}>Parks</Text>
                         </Button>
-                        <Button style={{ backgroundColor: "#4c524e" }}>
+                        <Button style={{ backgroundColor: "#4c524e" }} onPress={() => this.fetchParks('hospital')}>
                             <Text style={{ color: "white" }}>Hospitals</Text>
                         </Button>
                         <Button style={{ backgroundColor: "#4c524e" }}>
-                            <Text style={{ color: "white" }}>Pumps</Text>
+                            <Text style={{ color: "white" }} onPress={() => this.fetchParks('restaurant')}>Restaurant</Text>
                         </Button>
                         <Button
                             style={{ backgroundColor: "#4c524e" }}

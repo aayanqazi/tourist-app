@@ -1,15 +1,21 @@
 import { createStore, combineReducers, applyMiddleware } from 'redux';
 import { combineEpics, createEpicMiddleware } from 'redux-observable';
 import AuthReducer from './reducers/auth';
+import PlacesReducer from './reducers/places';
+
 import AuthEpic from "./epic/auth";
+import PlacesEpic from "./epic/places";
 
 //combine epic
 const rootEpic = combineEpics(
-  AuthEpic.loginEpic
+  AuthEpic.loginEpic,
+  PlacesEpic.Places,
+  PlacesEpic.shortestDistance
 );
 //combine reducers
 export const rootReducer = combineReducers({
-    AuthReducer
+    AuthReducer,
+    PlacesReducer
 });
 
 //create epic middleware
