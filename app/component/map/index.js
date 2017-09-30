@@ -1,9 +1,17 @@
 import React from 'react';
 import Styling from "./style";
 import MapView from 'react-native-maps';
-import { View, Text ,Alert} from "react-native";
+import { View, Text, Alert } from "react-native";
 
-const GoogleMap = ({ view, location, places , distance}) => {
+const GoogleMap = ({ view, location, places, distance, polyline }) => {
+    var direction = [];
+    polyline ?
+        polyline.map(data => {
+            direction.push({ latitude: parseFloat(data[0]), longitude: parseFloat(data[1]) })
+        })
+        :
+        direction =[];
+        console.log(direction);
     return (<MapView
         style={Styling.map}
         showTraffic={true}
@@ -22,6 +30,13 @@ const GoogleMap = ({ view, location, places , distance}) => {
             }
             }
         />
+        {direction.length !== 0 ?
+            direction.map((data, index )=> {
+                return <MapView.Polyline key={index} coordinates={direction} strokeWidth={4}
+                    strokeColor="blue" />
+            })
+            :
+            null}
         {places.places ?
             places.places.map((place, index) => {
                 return <MapView.Marker
@@ -33,7 +48,7 @@ const GoogleMap = ({ view, location, places , distance}) => {
 Location: ${place.vicinity}`,
                         [
                             { text: 'Cancel', onPress: () => console.log('Cancel Pressed'), style: 'cancel' },
-                            { text: 'Yes', onPress: () => distance({curLattitude:location.latitude,curLongitude:location.longitude,latitude:place.geometry.location.lat,longitude:place.geometry.location.lng}) },
+                            { text: 'Yes', onPress: () => distance({ curLattitude: location.latitude, curLongitude: location.longitude, latitude: place.geometry.location.lat, longitude: place.geometry.location.lng }) },
                         ],
                         { cancelable: false }
                     )

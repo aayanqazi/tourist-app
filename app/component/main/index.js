@@ -62,7 +62,7 @@ export default class App extends PureComponent {
         console.log(this.props)
         return (
             <View style={styles.container}>
-                <Map view={this.state.view} location={this.state.currentLocation} places={this.props.places} distance = {this.props.distance}/>
+                <Map view={this.state.view} location={this.state.currentLocation} polyline={this.props.polyline} places={this.props.places} distance = {this.props.distance}/>
                 <View style={styles.autoComplete}>
                     <AutoComplete changeLocation={this.changeLocation} />
                 </View>
