@@ -3,7 +3,7 @@ import Styling from "./style";
 import MapView from 'react-native-maps';
 import { View, Text, Alert } from "react-native";
 
-const GoogleMap = ({ view, location, places, distance, polyline }) => {
+const GoogleMap = ({ view, location, places, distance, polyline , toolTip}) => {
     var direction = [];
     polyline ?
         polyline.map(data => {
@@ -32,7 +32,7 @@ const GoogleMap = ({ view, location, places, distance, polyline }) => {
         />
         {direction.length !== 0 ?
             direction.map((data, index )=> {
-                return <MapView.Polyline key={index} coordinates={direction} strokeWidth={4}
+                return <MapView.Polyline key={index} onPress={(event)=> toolTip(event,places.road.routes[0].legs[0])} coordinates={direction} strokeWidth={4}
                     strokeColor="blue" />
             })
             :

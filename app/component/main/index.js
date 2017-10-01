@@ -18,6 +18,8 @@ export default class App extends PureComponent {
     state = {
         viewBolean: true,
         view: 'standard',
+        tooltipOpen: false,
+        tooltipData: "",
         currentLocation: {
             latitude: 37.78825,
             longitude: -122.4324
@@ -35,10 +37,23 @@ export default class App extends PureComponent {
             alert("Please turn on location in your phone")
         })
     }
-
+    toolTip = (event, data) => {
+        let obj = {
+            distance: data.distance.text,
+            duration: data.duration.text
+        }
+        this.setState({
+            tooltipOpen: !this.state.tooltipOpen,
+            tooltipData: obj
+        })
+    }
     fetchParks = (value) => {
         var obj = this.state.currentLocation;
         obj.type = value
+        this.setState({
+            tooltipOpen: false
+        })
+
         this.props.placesApi(obj)
     }
 
@@ -46,7 +61,7 @@ export default class App extends PureComponent {
         let obj = this.state.currentLocation;
         obj.latitude = lat;
         obj.longitude = lon;
-        this.setState(obj);
+        this.setState(obj,{tooltipOpen: false});
     }
 
     changeState = () => {
@@ -62,13 +77,18 @@ export default class App extends PureComponent {
         console.log(this.props)
         return (
             <View style={styles.container}>
-                <Map view={this.state.view} location={this.state.currentLocation} polyline={this.props.polyline} places={this.props.places} distance = {this.props.distance}/>
+                <Map view={this.state.view} location={this.state.currentLocation} toolTip={this.toolTip} polyline={this.props.polyline} places={this.props.places} distance={this.props.distance} />
                 <View style={styles.autoComplete}>
                     <AutoComplete changeLocation={this.changeLocation} />
                 </View>
                 {
                     this.props.places.isProcessing ? <Loader /> : null
                 }
+                {this.state.tooltipOpen ?
+                    <View style={styles.description}>
+                        <Text style={styles.descriptionText}>Distance : {this.state.tooltipData.distance}, Duration: {this.state.tooltipData.duration}</Text>
+                    </View>
+                    : null}
                 <Footer style={{ bottom: 0, position: 'absolute' }}>
                     <FooterTab>
                         <Button style={{ backgroundColor: "#4c524e" }} onPress={() => this.fetchParks('park')}>
@@ -103,4 +123,18 @@ const styles = StyleSheet.create({
         left: 30,
         right: 30
     },
+    description: {
+        position: 'absolute',
+        width: '80%',
+        borderRadius: 50,
+        bottom: 80,
+        left: 35,
+        backgroundColor: '#F5FCFF88',
+        height: 30,
+        justifyContent: 'center'
+    },
+    descriptionText: {
+        fontWeight: 'bold',
+        textAlign: 'center'
+    }
 });
