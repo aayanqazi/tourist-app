@@ -9,10 +9,11 @@ import {
     TouchableOpacity
 } from 'react-native';
 import { Style } from "./style";
+import { NavigationActions } from "react-navigation";
 import EvilIcons from 'react-native-vector-icons/EvilIcons';
 import { Container, Form, Thumbnail, Item, Input, Label, Title, Content, Button, Left, Right, Body, Icon, Text } from 'native-base';
 
-export default class Login extends Component {
+export default class Signup extends Component {
     constructor(props) {
         super(props);
         this.imageHeight = new Animated.Value(250);
@@ -79,8 +80,8 @@ export default class Login extends Component {
         //     alert("Invalid username and password");
         // }
     }
-    login = () => {
-        // this.props.login({ email: this.state.email, password: this.state.password });
+    signup = () => {
+        this.props.signup({ email: this.state.email, password: this.state.password });
         // AsyncStorage.getItem('user', (err, res) => {
         //     let user = JSON.parse(res);
         //     if (this.state.email == user.email && this.state.password == user.password) {
@@ -104,12 +105,13 @@ export default class Login extends Component {
         return (
             <Container>
                 <Image blurRadius={1} style={Style.backImage} source={{ uri: "https://i.pinimg.com/736x/a6/bc/ee/a6bcee2cfe21c473f6bc894b3ee5eebe--monuments-pakistan.jpg" }}>
-                    <Animated.View style={{paddingBottom: this.keyboardHeight}}>
-                        <View style={Style.imageContainer}>
-                        <Animated.Image style={{ height: this.imageHeight, width: this.imageHeight }} source={require('../../assets/logo.png')} />
-                        </View>
+                    <Animated.View style={{ paddingBottom: this.keyboardHeight }}>
                         <View style={Style.imageStyle}>
-                            <Form style={Style.loginContainer}>
+                            <View style={{paddingTop:'40%',paddingBottom:12}}>
+                                <Text style={{ color: 'white' ,fontSize:40,fontWeight:'bold'}}>SIGNUP</Text>
+                            </View>
+
+                            <Form style={Style.signupContainer}>
                                 <Item>
                                     <Input placeholderTextColor="white" keyboardType="email-address" placeholder='Email' onChangeText={(value) => this.setState({ email: value })} />
                                     <EvilIcons name='user' style={Style.formIcon} />
@@ -118,19 +120,18 @@ export default class Login extends Component {
                                     <Input placeholderTextColor="white" placeholder='Password' onChangeText={(value) => this.setState({ password: value })} secureTextEntry />
                                     <EvilIcons name='lock' style={Style.formIcon} />
                                 </Item>
-                                <Button style={Style.loginButton} onPress={() => this.login()} full info>
-                                    <Text>Login</Text>
+                                <Button style={Style.signupButton} onPress={() => this.props.navigation.navigate('Welcome')} full info>
+                                    <Text>signup</Text>
                                 </Button>
                             </Form>
-                            <TouchableOpacity onPress={()=>this.props.navigation.navigate('Signup')}>
-                                <Text style={Style.notlogged}> CREATE NEW ACCOUNT</Text>
+                            <TouchableOpacity onPress={() => this.props.navigation.navigate('Login')}>
+                                <Text style={Style.notlogged}> Already have account ? </Text>
                             </TouchableOpacity>
                         </View>
                     </Animated.View>
 
                 </Image>
             </Container>
-
         );
     }
 }

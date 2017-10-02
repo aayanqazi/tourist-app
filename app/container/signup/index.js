@@ -2,9 +2,9 @@ import React from "react";
 import { View } from "react-native";
 import { connect } from "react-redux";
 import PlacesActions from "../../store/actions/places";
-import {Login} from "../../component/";
+import {Signup} from "../../component/";
 
-class Logins extends React.Component {
+class Signups extends React.Component {
     constructor(props) {
         super(props);
     }
@@ -12,7 +12,7 @@ class Logins extends React.Component {
 
 
     render() {
-        return <Login navigation={this.props.navigation} />
+        return <Signup  navigation={this.props.navigation}/>
     }
 }
 
@@ -29,4 +29,4 @@ const mapDispatchToProps = (Dispatch) => {
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Logins);
+export default connect(mapStateToProps, mapDispatchToProps)(Signups);
