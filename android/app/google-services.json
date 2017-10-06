@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "856819661539",
+    "firebase_url": "https://react-native-3ab33.firebaseio.com",
+    "project_id": "react-native-3ab33",
+    "storage_bucket": "react-native-3ab33.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:856819661539:android:aebbca631787e8ab",
+        "android_client_info": {
+          "package_name": "com.tourist"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "856819661539-q21ieap49gej9ubth3k2r6kksacg9dtd.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDxswrKtsdpZcrOb-xegKFxNHH6oEb7v88"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
