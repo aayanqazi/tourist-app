@@ -9,7 +9,9 @@ import {
     TouchableOpacity
 } from 'react-native';
 import { Style } from "./style";
+import { Loader } from "../";
 import EvilIcons from 'react-native-vector-icons/EvilIcons';
+import { firebase } from '../../config/firebase';
 import { Container, Form, Thumbnail, Item, Input, Label, Title, Content, Button, Left, Right, Body, Icon, Text } from 'native-base';
 
 export default class Login extends Component {
@@ -22,18 +24,23 @@ export default class Login extends Component {
             password: ""
         }
     }
-    // componentWillMount() {
-    //     this.keyboardWillShowSub = Keyboard.addListener('keyboardWillShow', this.keyboardWillShow);
-    //     this.keyboardWillHideSub = Keyboard.addListener('keyboardWillHide', this.keyboardWillHide);
-    //     // AsyncStorage.getItem('token', (err, result) => {
-    //     //     if (result) {
-    //     //         this.props.navigation.dispatch(NavigationActions.reset({ index: 0, actions: [NavigationActions.navigate({ routeName: 'dashboard' })] }))
-    //     //     }
-    //     // })
-    // }
+    componentWillMount() {
+        this.keyboardWillShowSub = Keyboard.addListener('keyboardWillShow', this.keyboardWillShow);
+        this.keyboardWillHideSub = Keyboard.addListener('keyboardWillHide', this.keyboardWillHide);
+        // AsyncStorage.getItem('token', (err, result) => {
+        //     if (result) {
+        //         this.props.navigation.dispatch(NavigationActions.reset({ index: 0, actions: [NavigationActions.navigate({ routeName: 'dashboard' })] }))
+        //     }
+        // })
+    }
     componentWillMount() {
         this.keyboardDidShowListener = Keyboard.addListener('keyboardDidShow', this._keyboardDidShow.bind(this));
         this.keyboardDidHideListener = Keyboard.addListener('keyboardDidHide', this._keyboardDidHide.bind(this));
+        firebase.auth().onAuthStateChanged((user) => {
+            if (user) {
+                this.props.navigation.navigate('Welcome');
+            }
+        })
     }
 
     _keyboardDidShow(event) {
@@ -52,7 +59,6 @@ export default class Login extends Component {
             }),
         ]).start();
     }
-
     _keyboardDidHide(event) {
         console.log(event)
         Animated.parallel([
@@ -71,6 +77,9 @@ export default class Login extends Component {
         this.keyboardWillHideSub.remove();
     }
     componentWillReceiveProps(newProps) {
+        if (this.props.data.isAuthenticated) {
+            this.props.navigation.navigate('Welcome')
+        }
         // if (newProps.user.isAuthenticated) {
         //     this.props.navigation.dispatch(NavigationActions.reset({ index: 0, actions: [NavigationActions.navigate({ routeName: 'dashboard' })] }))
         //     AsyncStorage.setItem('token', "1234Admin78910");
@@ -80,7 +89,7 @@ export default class Login extends Component {
         // }
     }
     login = () => {
-        // this.props.login({ email: this.state.email, password: this.state.password });
+        this.props.login({ email: this.state.email, password: this.state.password });
         // AsyncStorage.getItem('user', (err, res) => {
         //     let user = JSON.parse(res);
         //     if (this.state.email == user.email && this.state.password == user.password) {
@@ -104,9 +113,10 @@ export default class Login extends Component {
         return (
             <Container>
                 <Image blurRadius={1} style={Style.backImage} source={{ uri: "https://i.pinimg.com/736x/a6/bc/ee/a6bcee2cfe21c473f6bc894b3ee5eebe--monuments-pakistan.jpg" }}>
-                    <Animated.View style={{paddingBottom: this.keyboardHeight}}>
+                    {this.props.data.isProcessing ? <Loader /> : null}
+                    <Animated.View style={{ paddingBottom: this.keyboardHeight }}>
                         <View style={Style.imageContainer}>
-                        <Animated.Image style={{ height: this.imageHeight, width: this.imageHeight }} source={require('../../assets/logo.png')} />
+                            <Animated.Image style={{ height: this.imageHeight, width: this.imageHeight }} source={require('../../assets/logo.png')} />
                         </View>
                         <View style={Style.imageStyle}>
                             <Form style={Style.loginContainer}>
@@ -122,7 +132,7 @@ export default class Login extends Component {
                                     <Text>Login</Text>
                                 </Button>
                             </Form>
-                            <TouchableOpacity onPress={()=>this.props.navigation.navigate('Signup')}>
+                            <TouchableOpacity onPress={() => this.props.navigation.navigate('Signup')}>
                                 <Text style={Style.notlogged}> CREATE NEW ACCOUNT</Text>
                             </TouchableOpacity>
                         </View>

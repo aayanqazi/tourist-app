@@ -9,14 +9,15 @@ import { HttpService } from "../../services/http";
 export default class AuthEpic {
 
     // Epic middleware for login
-    // static loginEpic = (action$) =>
-    //     action$.ofType(AuthActions.PARKS_FETCH)
-    //         .switchMap(({ payload }) => {
-    //             console.log(payload)
-    //             return HttpService.get(`https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=${payload.latitude},${payload.longitude}&radius=500&type=${payload.type}&key=${API_KEY}`)
-    //                 .map((arr) => Places.parksSuccessful(arr.response.results))
-    //                 .catch(err => Places.parksRejected(err.message))
-    //         })
+    static loginEpic = (action$) =>
+        action$.ofType(Auth.SIGNIN)
+            .switchMap(({ payload }) => {
+                return firebase.auth().signInWithEmailAndPassword(payload.email, payload.password)
+                .then((arr) => {
+                    return AuthActions.signinSuccessful(arr)
+                })
+                .catch((err) => AuthActions.signinRejected(err))
+        })
     // .mergeMap(({ payload }) => {
     //     return LocalStorageApi.login(payload)
     //  .map(arr=>{console.log(arr);return Observable.of({

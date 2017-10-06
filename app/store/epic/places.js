@@ -36,7 +36,7 @@ export default class AuthEpic {
     static shortestDistance = (action$) =>
         action$.ofType(PlacesActions.DISTANCE_FETCH)
             .switchMap(({ payload }) => {
-                return HttpService.get(`https://maps.googleapis.com/maps/api/directions/json?origin=${payload.curLattitude},${payload.curLongitude}&destination=${payload.latitude},${payload.longitude}`)
+                return HttpService.get(`https://maps.googleapis.com/maps/api/directions/json?origin=${payload.curLattitude},${payload.curLongitude}&destination=${payload.latitude},${payload.longitude}&key=${API_KEY}`)
                     .map((arr) => Places.distanceSuccessful(arr.response))
                     .catch((err) => Places.distanceRejected(err))
             })

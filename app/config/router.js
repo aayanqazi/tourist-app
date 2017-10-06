@@ -23,7 +23,7 @@ const routerConfig = StackNavigator({
             header: null,
         },
     },
-        Welcome:{
+    Welcome:{
         screen:Welcome,
         navigationOptions: {
             header: null,

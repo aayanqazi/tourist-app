@@ -13,15 +13,11 @@ const GoogleAutoPlaces = ({changeLocation}) => {
         fetchDetails={true}
         query={{
             // available options: https://developers.google.com/places/web-service/autocomplete
-            key: 'AIzaSyDzpEMajXZeyfzxOAoP1Ky_nHsGdYcMy5w',
+            key: 'AIzaSyDUeNmeQRxC8La9qE0zgo-bkhj1U-n1m0I',
             language: 'en', // language of the results
         }}
         debounce={0}
-        onPress={(data, details = null) => { // 'details' is provided when fetchDetails = true
-            changeLocation(details.geometry.location.lat,details.geometry.location.lng);
-            console.log(data);
-            console.log(details);
-        }} />)
+        onPress={(data, details) => {changeLocation(details.geometry.location.lat,details.geometry.location.lng)}} />)
 }
 
 export default GoogleAutoPlaces;

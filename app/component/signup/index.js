@@ -9,6 +9,8 @@ import {
     TouchableOpacity
 } from 'react-native';
 import { Style } from "./style";
+import {Loader } from "../"
+
 import { NavigationActions } from "react-navigation";
 import EvilIcons from 'react-native-vector-icons/EvilIcons';
 import { Container, Form, Thumbnail, Item, Input, Label, Title, Content, Button, Left, Right, Body, Icon, Text } from 'native-base';
@@ -16,8 +18,6 @@ import { Container, Form, Thumbnail, Item, Input, Label, Title, Content, Button,
 export default class Signup extends Component {
     constructor(props) {
         super(props);
-        this.imageHeight = new Animated.Value(250);
-        this.keyboardHeight = new Animated.Value(0)
         this.state = {
             email: "",
             password: ""
@@ -32,45 +32,7 @@ export default class Signup extends Component {
     //     //     }
     //     // })
     // }
-    componentWillMount() {
-        this.keyboardDidShowListener = Keyboard.addListener('keyboardDidShow', this._keyboardDidShow.bind(this));
-        this.keyboardDidHideListener = Keyboard.addListener('keyboardDidHide', this._keyboardDidHide.bind(this));
-    }
 
-    _keyboardDidShow(event) {
-        // Animated.timing(this.state.imageHeight,{
-        //     toValue:event.endCoordinates.height,
-        //     duration:10000
-        // }).start();
-        Animated.parallel([
-            Animated.timing(this.keyboardHeight, {
-                duration: 1,
-                toValue: event.endCoordinates.height,
-            }),
-            Animated.timing(this.imageHeight, {
-                duration: 100,
-                toValue: Style.imageHeightsmall.height,
-            }),
-        ]).start();
-    }
-
-    _keyboardDidHide(event) {
-        console.log(event)
-        Animated.parallel([
-            Animated.timing(this.keyboardHeight, {
-                duration: 1,
-                toValue: 0,
-            }),
-            Animated.timing(this.imageHeight, {
-                duration: 100,
-                toValue: Style.imageThumbnail.height,
-            }),
-        ]).start();
-    };
-    componentWillUnmount() {
-        this.keyboardWillShowSub.remove();
-        this.keyboardWillHideSub.remove();
-    }
     componentWillReceiveProps(newProps) {
         // if (newProps.user.isAuthenticated) {
         //     this.props.navigation.dispatch(NavigationActions.reset({ index: 0, actions: [NavigationActions.navigate({ routeName: 'dashboard' })] }))
@@ -105,7 +67,8 @@ export default class Signup extends Component {
         return (
             <Container>
                 <Image blurRadius={1} style={Style.backImage} source={{ uri: "https://i.pinimg.com/736x/a6/bc/ee/a6bcee2cfe21c473f6bc894b3ee5eebe--monuments-pakistan.jpg" }}>
-                    <Animated.View style={{ paddingBottom: this.keyboardHeight }}>
+                {this.props.data.isProcessing?<Loader />:null}
+                    <Animated.View>
                         <View style={Style.imageStyle}>
                             <View style={{paddingTop:'40%',paddingBottom:12}}>
                                 <Text style={{ color: 'white' ,fontSize:40,fontWeight:'bold'}}>SIGNUP</Text>

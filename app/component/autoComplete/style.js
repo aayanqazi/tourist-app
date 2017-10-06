@@ -1,5 +1,3 @@
-import {Dimensions} from "react-native"
-var {height, width} = Dimensions.get('window');
 
 const Styling = {
     textInputContainer: {

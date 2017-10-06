@@ -61,7 +61,7 @@ export default class App extends PureComponent {
         let obj = this.state.currentLocation;
         obj.latitude = lat;
         obj.longitude = lon;
-        this.setState(obj,{tooltipOpen: false});
+        this.setState(obj);
     }
 
     changeState = () => {
@@ -79,7 +79,7 @@ export default class App extends PureComponent {
             <View style={styles.container}>
                 <Map view={this.state.view} location={this.state.currentLocation} toolTip={this.toolTip} polyline={this.props.polyline} places={this.props.places} distance={this.props.distance} />
                 <View style={styles.autoComplete}>
-                    <AutoComplete changeLocation={this.changeLocation} />
+                    <AutoComplete changeLocation={(lat,lon)=>this.changeLocation(lat,lon)} />
                 </View>
                 {
                     this.props.places.isProcessing ? <Loader /> : null

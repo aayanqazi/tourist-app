@@ -2,12 +2,12 @@ import { createStore, combineReducers, applyMiddleware } from 'redux';
 import { combineEpics, createEpicMiddleware } from 'redux-observable';
 import AuthReducer from './reducers/auth';
 import PlacesReducer from './reducers/places';
-
 import AuthEpic from "./epic/auth";
 import PlacesEpic from "./epic/places";
 
 //combine epic
 const rootEpic = combineEpics(
+  AuthEpic.loginEpic,  
   AuthEpic.signupEpic,
   PlacesEpic.Places,
   PlacesEpic.shortestDistance

@@ -21,9 +21,9 @@ function AuthReducer(state = INITIAL_STATE, action) {
         case AuthActions.SIGNIN:
             return { ...state, isProcessing: true, isAuthenticated: false, isError: false };
         case AuthActions.SIGNIN_SUCCESSFUL:
-            return { ...state, isProcessing: false, isAuthenticated: true, isError: false, authUser: action.payload };
+            return { ...state, isProcessing: false,isRegistered: false, isAuthenticated: true, isError: false, authUser: action.payload };
         case AuthActions.SIGNIN_REJECTED:
-            return { ...state, isProcessing: false, isAuthenticated: false, authUser: {}, isError: true, errorMessage: action.payload };
+            return { ...state, isProcessing: false,isRegistered: false, isAuthenticated: false, authUser: {}, isError: true, errorMessage: action.payload };
         case AuthActions.LOGOUT:
             return { ...state, isProcessing: true };
         case AuthActions.LOGOUT_SUCCESSFUL:

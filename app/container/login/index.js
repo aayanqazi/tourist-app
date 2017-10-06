@@ -1,7 +1,7 @@
 import React from "react";
 import { View } from "react-native";
 import { connect } from "react-redux";
-import PlacesActions from "../../store/actions/places";
+import AuthActions from "../../store/actions/authActions";
 import {Login} from "../../component/";
 
 class Logins extends React.Component {
@@ -9,23 +9,20 @@ class Logins extends React.Component {
         super(props);
     }
 
-
-
     render() {
-        return <Login navigation={this.props.navigation} />
+        return <Login data={this.props.userData} login={this.props.loginAction} navigation={this.props.navigation} />
     }
 }
 
 const mapStateToProps = (state) => {
     return {
-        places: state.PlacesReducer
+        userData: state.AuthReducer
     }
 }
 
 const mapDispatchToProps = (Dispatch) => {
     return {
-        placesAPi: (location) => Dispatch(PlacesActions.parks(location)),
-        shortestDistance: (location)=>Dispatch(PlacesActions.distance(location))
+        loginAction: (user) => Dispatch(AuthActions.signin(user))
     }
 }
 

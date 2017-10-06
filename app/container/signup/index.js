@@ -8,13 +8,17 @@ class Signups extends React.Component {
     constructor(props) {
         super(props);
     }
-    // componentWillReceiveProps(newProps){
-    //     if(newProps.userData.authUser){
-    //         this.props.navigation.navigate('Login');
-    //     }
-    // }
+    componentWillReceiveProps(newProps){
+        if(newProps.userData.isRegistered){
+            this.props.navigation.navigate('Login');
+        }
+        else if(newProps.userData.isError)
+        {
+            alert(newProps.userData.errorMessage);
+        }
+    }
     render() {
-        return <Signup signUp={this.props.singupAction} navigation={this.props.navigation} />
+        return <Signup data={this.props.userData} signUp={this.props.singupAction} navigation={this.props.navigation} />
     }
 }
 
