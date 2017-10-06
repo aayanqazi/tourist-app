@@ -13,6 +13,9 @@ import java.util.Arrays;
 import java.util.List;
 
 import io.invertase.firebase.RNFirebasePackage; 
+import io.invertase.firebase.auth.RNFirebaseAuthPackage; // Firebase Auth
+import io.invertase.firebase.database.RNFirebaseDatabasePackage; // Firebase Realtime Database
+import io.invertase.firebase.firestore.RNFirebaseFirestorePackage; // Firebase Firestore
 
 public class MainApplication extends Application implements ReactApplication {
 
@@ -27,7 +30,10 @@ public class MainApplication extends Application implements ReactApplication {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
             new MapsPackage(),
-             new RNFirebasePackage()
+             new RNFirebasePackage(),
+          new RNFirebaseAuthPackage(),
+          new RNFirebaseDatabasePackage(),
+          new RNFirebaseFirestorePackage()
       );
     }
   };
