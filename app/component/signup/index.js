@@ -81,7 +81,7 @@ export default class Signup extends Component {
         // }
     }
     signup = () => {
-        this.props.signup({ email: this.state.email, password: this.state.password });
+        this.props.signUp({ email: this.state.email, password: this.state.password });
         // AsyncStorage.getItem('user', (err, res) => {
         //     let user = JSON.parse(res);
         //     if (this.state.email == user.email && this.state.password == user.password) {
@@ -120,7 +120,7 @@ export default class Signup extends Component {
                                     <Input placeholderTextColor="white" placeholder='Password' onChangeText={(value) => this.setState({ password: value })} secureTextEntry />
                                     <EvilIcons name='lock' style={Style.formIcon} />
                                 </Item>
-                                <Button style={Style.signupButton} onPress={() => this.props.navigation.navigate('Welcome')} full info>
+                                <Button style={Style.signupButton} onPress={() => this.signup()} full info>
                                     <Text>signup</Text>
                                 </Button>
                             </Form>

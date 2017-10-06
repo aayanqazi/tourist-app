@@ -1,31 +1,32 @@
 import React from "react";
 import { View } from "react-native";
 import { connect } from "react-redux";
-import PlacesActions from "../../store/actions/places";
-import {Signup} from "../../component/";
+import AuthActions from "../../store/actions/authActions";
+import { Signup } from "../../component/";
 
 class Signups extends React.Component {
     constructor(props) {
         super(props);
     }
-
-
-
+    // componentWillReceiveProps(newProps){
+    //     if(newProps.userData.authUser){
+    //         this.props.navigation.navigate('Login');
+    //     }
+    // }
     render() {
-        return <Signup  navigation={this.props.navigation}/>
+        return <Signup signUp={this.props.singupAction} navigation={this.props.navigation} />
     }
 }
 
 const mapStateToProps = (state) => {
     return {
-        places: state.PlacesReducer
+        userData: state.AuthReducer
     }
 }
 
 const mapDispatchToProps = (Dispatch) => {
     return {
-        placesAPi: (location) => Dispatch(PlacesActions.parks(location)),
-        shortestDistance: (location)=>Dispatch(PlacesActions.distance(location))
+        singupAction: (user) => Dispatch(AuthActions.signup(user))
     }
 }
 

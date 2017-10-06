@@ -8,7 +8,7 @@ import PlacesEpic from "./epic/places";
 
 //combine epic
 const rootEpic = combineEpics(
-  AuthEpic.loginEpic,
+  AuthEpic.signupEpic,
   PlacesEpic.Places,
   PlacesEpic.shortestDistance
 );

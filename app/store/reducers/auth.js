@@ -1,5 +1,5 @@
 
-import AuthActions from "./../actions/authActions";
+import AuthActions from "./../constants/auth";
 
 const INITIAL_STATE = {
     authUser: {},
